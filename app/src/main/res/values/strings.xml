@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">EvaluacionApp</string>
+
+    <!-- Logo -->
+    <string name="app_logo">Logo de la aplicación</string>
+
+    <!-- Textos Generales -->
+    <string name="email">Correo Electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="name">Nombre Completo</string>
+    <string name="ok">Entendido</string>
+
+    <!-- Títulos de Activities (NUEVO) -->
+    <string name="title_activity_register">Crear Nueva Cuenta</string>
+    <string name="title_activity_recover">Recuperar Contraseña</string>
+
+    <!-- Pantalla Login -->
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="no_account">¿Aún no tienes cuenta?</string>
+    <string name="register_here">Regístrate aquí</string>
+
+    <!-- Pantalla Registrar -->
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="register_button">Crear Cuenta</string>
+
+    <!-- Pantalla Recuperar -->
+    <string name="instructions_recover">Ingresa tu correo electrónico y te enviaremos un enlace para recuperar tu contraseña.</string>
+    <string name="recover_button">Enviar Enlace</string>
+
+    <!-- Alertas (Rubrica #2) -->
+    <string name="login_success_title">Inicio de Sesión Exitoso</string>
+    <string name="login_success_message">¡Bienvenido/a de vuelta! Has iniciado sesión correctamente (simulación).</string>
+    <string name="register_success_title">¡Cuenta Creada!</string>
+    <string name="register_success_message">Tu cuenta ha sido creada exitosamente. Ya puedes iniciar sesión (simulación).</string>
+    <string name="recover_sent_title">Correo Enviado</string>
+    <string name="recover_sent_message">Hemos enviado un correo con las instrucciones para recuperar tu contraseña a tu email (simulación).</string>
+
+    <!-- Alertas Bluetooth (Rubrica #5) -->
+    <string name="bt_title">Estado de Bluetooth</string>
+    <string name="bt_not_supported">Tu dispositivo no soporta Bluetooth.</string>
+    <string name="bt_not_enabled">Bluetooth está desactivado. Por favor, actívalo.</string>
+
+</resources>
