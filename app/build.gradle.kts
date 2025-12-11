@@ -61,4 +61,23 @@ dependencies {
 
     // Imágenes
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // ... (dentro del bloque dependencies { ... })
+
+    // Imágenes
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // ----------------------------------------------------
+    // DEPENDENCIAS DE LA EVALUACIÓN 4 (EV4)
+    // ----------------------------------------------------
+
+    // OSMDroid (Mapa Gratuito)
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+
+    // Google Location Services (para GPS, usado para el rastreo en movimiento)
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // Coroutines (para la simulación asíncrona del sensor)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }

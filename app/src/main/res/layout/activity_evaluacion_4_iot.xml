@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btnLanzarEV4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lanzar Evaluación IoT"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Conectividad Inalámbrica"
+        android:textStyle="bold"/>
+
+    <Switch
+        android:id="@+id/switchBluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth"
+        android:layout_marginTop="8dp"/>
+
+    <Switch
+        android:id="@+id/switchWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WiFi"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lectura del Sensor"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvAngulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ángulo Actual: 0°"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/tvEstadoAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Estado: Normal"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ubicación y Rastreo"
+        android:textStyle="bold"/>
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+
+</LinearLayout>

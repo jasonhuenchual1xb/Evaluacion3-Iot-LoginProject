@@ -1,6 +1,5 @@
 package com.example.loginproject
 
-// import com.example.loginproject.R
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
@@ -8,73 +7,92 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import android.widget.Button
 import android.widget.TextView
-import android.widget.EditText // ¡¡IMPORTANTE!! (Añadido para que reconozca el EditText)
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(
-            R.layout.activity_login)
+        setContentView(R.layout.activity_login)
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         // 1. Referencias a los componentes en el layout
-
-        // ¡¡CAMBIO IMPORTANTE!!
-        // Ahora buscamos el ID "editTextEmail" (tu campo "Usuario")
         val editTextUsername = findViewById<EditText>(R.id.editTextEmail)
+        val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
 
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
         val textForgotPassword = findViewById<TextView>(R.id.textForgotPassword)
         val textRegisterHere = findViewById<TextView>(R.id.textRegisterHere)
+        // 🛑 ELIMINADO: La referencia al btnLanzarEV4 ya no va aquí.
+        // val btnLanzarEV4 = findViewById<Button>(R.id.btnLanzarEV4)
 
-        // 2. Lógica de Navegación (Rubrica #4 - Interconexión)
+        // 2. Lógica de Navegación
 
-        // ¡¡BLOQUE MODIFICADO!!
-        // Ahora abre 'WelcomeActivity' y le pasa el nombre de usuario
         buttonLogin.setOnClickListener {
-            // 1. Capturamos el texto de tu campo "Usuario" (editTextEmail)
-            val username = editTextUsername.text.toString()
+            val username = editTextUsername.text.toString().trim()
+            val password = editTextPassword.text.toString().trim()
 
-            // 2. Creamos el Intent (el "paquete") para ir a WelcomeActivity
-            val intent = Intent(this, WelcomeActivity::class.java)
+            // VALIDACIÓN DE CAMPOS VACÍOS
+            if (username.isEmpty() || password.isEmpty()) {
+                showToast("Por favor, ingresa tu usuario y contraseña.")
+                return@setOnClickListener
+            }
 
-            // 3. Metemos el nombre de usuario en el "paquete"
-            intent.putExtra("EXTRA_USERNAME", username)
+            // LÓGICA DE FIREBASE: Verifica que la cuenta sea REAL
+            firebaseAuth.signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(this) { task ->
 
-            // 4. Enviamos el "paquete" (iniciamos la nueva pantalla)
-            startActivity(intent)
+                    if (task.isSuccessful) {
+                        // ÉXITO: Navegar a WelcomeActivity (donde estará el botón EV4)
+                        showToast("¡Inicio de sesión exitoso!")
+                        val intent = Intent(this, WelcomeActivity::class.java)
+                        intent.putExtra("EXTRA_USERNAME", username)
+                        startActivity(intent)
+                        finish()
 
-            // (Opcional: puedes descomentar 'finish()' si no quieres que
-            // el usuario pueda volver al Login con el botón "atrás" del teléfono)
-            // finish()
+                    } else {
+                        showToast("Error: Credenciales inválidas o cuenta no registrada.")
+                    }
+                }
         }
 
         textForgotPassword.setOnClickListener {
-            // Inicia la Actividad de Recuperar Clave
-            // ¡¡CORREGIDO!! (Para que coincida con tu archivo "RecuperarContrasenaActivity.kt")
             val intent = Intent(this, RecuperarContrasenaActivity::class.java)
             startActivity(intent)
         }
 
         textRegisterHere.setOnClickListener {
-            // Inicia la Actividad de Registrar
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
 
-        // 3. Bonus: Chequeo de Bluetooth (Se queda igual)
+        // 🛑 ELIMINADO: El Listener del botón btnLanzarEV4 ya no va aquí.
+        /*
+        btnLanzarEV4.setOnClickListener {
+            val intent = Intent(this, Evaluacion4IotActivity::class.java)
+            startActivity(intent)
+        }
+        */
+
+        // 3. Chequeo de Bluetooth
         checkBluetoothStatus()
     }
 
-    /**
-     * Función reutilizable para mostrar un AlertDialog.
-     * (Se queda igual)
-     */
+    // ... (Las funciones showAlertDialog y checkBluetoothStatus se quedan igual) ...
     private fun showAlertDialog(title: String, message: String) {
         AlertDialog.Builder(this)
             .setTitle(title)
@@ -86,23 +104,14 @@ class LoginActivity : AppCompatActivity() {
             .show()
     }
 
-    /**
-     * BONUS: Simula la conexión inalámbrica (Bluetooth)
-     * (Se queda igual)
-     */
     private fun checkBluetoothStatus() {
-        // Para interactuar con Bluetooth, necesitamos el Adapter
-        // Usamos un try-catch por si los permisos no están en el Manifest
-        // (Rubrica #3 - Seguridad básica)
         try {
-            // Chequeo de permisos para Android 12+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 if (ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.BLUETOOTH_CONNECT
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-                    // Si no tenemos permiso, lo pedimos.
                     ActivityCompat.requestPermissions(
                         this,
                         arrayOf(Manifest.permission.BLUETOOTH_CONNECT),
@@ -115,20 +124,17 @@ class LoginActivity : AppCompatActivity() {
             val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
             if (bluetoothAdapter == null) {
-                // El dispositivo no soporta Bluetooth
                 showAlertDialog(
                     getString(R.string.bt_title),
                     getString(R.string.bt_not_supported)
                 )
             } else {
                 if (!bluetoothAdapter.isEnabled) {
-                    // Bluetooth está apagado
                     showAlertDialog(
                         getString(R.string.bt_title),
                         getString(R.string.bt_not_enabled)
                     )
                 } else {
-                    // Bluetooth está encendido y listo
                     Log.d("Bluetooth", "Bluetooth está activado y listo.")
                 }
             }
